@@ -6,7 +6,7 @@ public class SBIUser implements BankInterface{
     private String accountNo;
     private double balance;
     private String password;
-    private double rateOfInterest;
+    private static double rateOfInterest;
 
     // shortcut for constructor - alt+insert
     public SBIUser(String name, double balance, String password) {
@@ -16,51 +16,52 @@ public class SBIUser implements BankInterface{
 
         this.rateOfInterest = 6.5;
         this.accountNo = String.valueOf(UUID.randomUUID()); // its generates unique 128bit number
+        // 36 characters
     }
 
     public String getName() {
         return name;
     }
 
-    public String getAccountNo() {
-        return accountNo;
-    }
-
-    public double getBalance() {
-        return balance;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public double getRateOfInterest() {
-        return rateOfInterest;
-    }
-
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAccountNo() {
+        return accountNo;
     }
 
     public void setAccountNo(String accountNo) {
         this.accountNo = accountNo;
     }
 
+    public double getBalance() {
+        return balance;
+    }
+
     public void setBalance(double balance) {
         this.balance = balance;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public void setRateOfInterest(double rateOfInterest) {
-        this.rateOfInterest = rateOfInterest;
+    public static double getRateOfInterest() {
+        return rateOfInterest;
+    }
+
+    public static void setRateOfInterest(double rateOfInterest) {
+        SBIUser.rateOfInterest = rateOfInterest;
     }
 
     @Override
     public double checkBalance() {
-        return balance;
+        return this.balance;
     }
 
     @Override
@@ -71,7 +72,7 @@ public class SBIUser implements BankInterface{
 
     @Override
     public String withdrawMoney(int amount, String inputPassword) {
-        if(Objects.equals(inputPassword,password)) { // Object is Parent for all classes in Java
+        if(Objects.equals(inputPassword,password)) { // Object is ultimate Parent for all classes in Java
             if(amount > balance) {
                 return "Insufficient balance";
             }else{
@@ -85,6 +86,6 @@ public class SBIUser implements BankInterface{
 
     @Override
     public double calculateInterest(int years) {
-        return 0;
+        return (balance * years * rateOfInterest)/100;
     }
 }
